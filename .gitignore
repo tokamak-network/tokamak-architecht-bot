@@ -1,0 +1,82 @@
+# ===========================================
+# Tokamak Architect Bot - .gitignore
+# ===========================================
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual environments
+venv/
+ENV/
+env/
+.venv/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.project
+.pydevproject
+.settings/
+
+# Environment variables (IMPORTANT: never commit!)
+.env
+.env.local
+.env.*.local
+
+# Data directories
+data/
+*.db
+*.sqlite
+chroma_db/
+
+# Logs
+logs/
+*.log
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+.nox/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+*.temp
+
+# Model cache (large files)
+# Note: We include model in Docker but exclude from git
+.cache/
+model_cache/
