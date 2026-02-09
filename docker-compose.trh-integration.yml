@@ -1,0 +1,91 @@
+# ===========================================
+# TRH Platform Integration Snippet
+# ===========================================
+# Add this service to the main trh-platform docker-compose.yml
+#
+# Prerequisites:
+# 1. Clone tokamak-architecht-bot repo alongside trh-platform
+# 2. Or use pre-built image from registry
+#
+# Environment variables to add to .env:
+#   TOKAMAK_AI_API_KEY=your-api-key
+#   CHATBOT_CORS_ORIGINS=https://your-domain.com
+
+# --- COPY BELOW INTO trh-platform/docker-compose.yml ---
+
+services:
+  # ... existing services (frontend, backend, postgres, etc.) ...
+
+  chatbot:
+    build:
+      context: ../tokamak-architecht-bot
+      dockerfile: Dockerfile
+    # Or use pre-built image:
+    # image: tokamak/architect-bot:latest
+    container_name: tokamak-architect-bot
+    restart: unless-stopped
+    ports:
+      - "8001:8001"
+    environment:
+      - TOKAMAK_AI_BASE_URL=https://api.ai.tokamak.network
+      - TOKAMAK_AI_API_KEY=${TOKAMAK_AI_API_KEY}
+      - CHAT_MODEL=claude-sonnet-4.5
+      - EMBEDDING_PROVIDER=local
+      - CHROMA_PERSIST_DIR=/app/data/chroma_db
+      - LOG_LEVEL=INFO
+      # Update this with your production frontend URL
+      - CORS_ORIGINS=${CHATBOT_CORS_ORIGINS:-http://localhost:3000}
+    volumes:
+      - chatbot_data:/app/data
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8001/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    networks:
+      - trh_network
+    depends_on:
+      - backend  # Optional: wait for main backend
+
+# Add to volumes section:
+volumes:
+  chatbot_data:
+
+# --- END SNIPPET ---
+
+# ===========================================
+# Terraform Security Group Update
+# ===========================================
+# Add to your AWS security group in Terraform:
+#
+# ingress {
+#   from_port   = 8001
+#   to_port     = 8001
+#   protocol    = "tcp"
+#   cidr_blocks = ["0.0.0.0/0"]
+#   description = "Chatbot API"
+# }
+
+# ===========================================
+# Frontend Environment Update
+# ===========================================
+# In trh-platform-ui/.env.production:
+#
+# NEXT_PUBLIC_CHATBOT_URL=https://your-api-domain.com:8001
+# Or if behind reverse proxy:
+# NEXT_PUBLIC_CHATBOT_URL=https://your-domain.com/chatbot-api
+
+# ===========================================
+# Nginx Reverse Proxy (Optional)
+# ===========================================
+# If you want to proxy chatbot through Nginx:
+#
+# location /chatbot-api/ {
+#     proxy_pass http://chatbot:8001/;
+#     proxy_http_version 1.1;
+#     proxy_set_header Upgrade $http_upgrade;
+#     proxy_set_header Connection 'upgrade';
+#     proxy_set_header Host $host;
+#     proxy_cache_bypass $http_upgrade;
+# }

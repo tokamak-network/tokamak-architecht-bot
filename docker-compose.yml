@@ -1,0 +1,66 @@
+# ===========================================
+# Tokamak Architect Bot - Docker Compose
+# ===========================================
+# Standalone setup for testing the chatbot
+#
+# Usage:
+#   docker-compose up -d
+#   docker-compose logs -f
+#   docker-compose down
+#
+# First time setup:
+#   docker-compose up -d
+#   docker-compose exec chatbot python -m scripts.ingest
+
+services:
+  chatbot:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: tokamak-architect-bot
+    restart: unless-stopped
+    ports:
+      - "8001:8001"
+    environment:
+      # Tokamak AI Gateway
+      - TOKAMAK_AI_BASE_URL=${TOKAMAK_AI_BASE_URL:-https://api.ai.tokamak.network}
+      - TOKAMAK_AI_API_KEY=${TOKAMAK_AI_API_KEY}
+      - CHAT_MODEL=${CHAT_MODEL:-claude-sonnet-4.5}
+
+      # Embedding (local by default - free)
+      - EMBEDDING_PROVIDER=${EMBEDDING_PROVIDER:-local}
+      - LOCAL_EMBEDDING_MODEL=${LOCAL_EMBEDDING_MODEL:-all-MiniLM-L6-v2}
+
+      # Vector DB
+      - CHROMA_PERSIST_DIR=/app/data/chroma_db
+      - CHROMA_COLLECTION_NAME=${CHROMA_COLLECTION_NAME:-tokamak_docs}
+
+      # Server
+      - HOST=0.0.0.0
+      - PORT=8001
+      - LOG_LEVEL=${LOG_LEVEL:-INFO}
+
+      # CORS - adjust for your frontend URL
+      - CORS_ORIGINS=${CORS_ORIGINS:-http://localhost:3000,http://127.0.0.1:3000}
+
+      # RAG Config
+      - RAG_TOP_K=${RAG_TOP_K:-4}
+    volumes:
+      # Persist vector database
+      - chatbot_data:/app/data
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8001/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    networks:
+      - chatbot_network
+
+volumes:
+  chatbot_data:
+    driver: local
+
+networks:
+  chatbot_network:
+    driver: bridge
