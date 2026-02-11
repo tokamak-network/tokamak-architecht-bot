@@ -58,7 +58,7 @@ class ChatResponse(BaseModel):
                     "response": "The challenge period is the time window during which...",
                     "conversation_id": "conv-123",
                     "sources": ["tokamak-docs/deployment.md"],
-                    "model": "claude-sonnet-4.5",
+                    "model": "qwen3-80b-next",
                     "timestamp": "2024-01-15T10:30:00Z"
                 }
             ]

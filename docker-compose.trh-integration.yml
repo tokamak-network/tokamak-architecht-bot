@@ -29,7 +29,7 @@ services:
     environment:
       - TOKAMAK_AI_BASE_URL=https://api.ai.tokamak.network
       - TOKAMAK_AI_API_KEY=${TOKAMAK_AI_API_KEY}
-      - CHAT_MODEL=claude-sonnet-4.5
+      - CHAT_MODEL=qwen3-80b-next
       - EMBEDDING_PROVIDER=local
       - CHROMA_PERSIST_DIR=/app/data/chroma_db
       - LOG_LEVEL=INFO

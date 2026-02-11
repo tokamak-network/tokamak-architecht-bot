@@ -20,11 +20,14 @@ class Settings(BaseSettings):
     """Application settings loaded from environment variables."""
 
     # ===========================================
-    # Tokamak AI Gateway (for Claude)
+    # Tokamak AI Gateway (LLM backend)
     # ===========================================
     tokamak_ai_base_url: str = "https://api.ai.tokamak.network"
     tokamak_ai_api_key: str = ""
-    chat_model: str = "claude-sonnet-4.5"
+    # Default chat model served via Tokamak AI Gateway.
+    # Previously: "claude-sonnet-4.5"
+    # Now using Qwen3 as default for better capabilities.
+    chat_model: str = "qwen3-80b-next"
 
     # ===========================================
     # Embedding Provider Configuration

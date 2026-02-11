@@ -115,7 +115,7 @@ parent-folder/
 |----------|----------|---------|-------------|
 | `TOKAMAK_AI_API_KEY` | Yes | - | API key for Tokamak AI Gateway |
 | `TOKAMAK_AI_BASE_URL` | No | https://api.ai.tokamak.network | AI Gateway URL |
-| `CHAT_MODEL` | No | claude-sonnet-4.5 | Claude model to use |
+| `CHAT_MODEL` | No | qwen3-80b-next | Chat model to use (default Qwen3 80B Next) |
 | `EMBEDDING_PROVIDER` | No | local | local, openai, or tokamak |
 | `CORS_ORIGINS` | No | http://localhost:3000 | Allowed frontend origins |
 | `LOG_LEVEL` | No | INFO | Logging level |

@@ -44,8 +44,12 @@ Edit `.env` file:
 TOKAMAK_AI_BASE_URL=https://api.ai.tokamak.network
 TOKAMAK_AI_API_KEY=your-api-key-here
 
-# Chat model
-CHAT_MODEL=claude-sonnet-4.5
+# Chat model (served via Tokamak AI Gateway)
+# Default: Qwen3 80B Next
+# Example:
+# CHAT_MODEL=qwen3-80b-next
+# Other options depend on gateway configuration (e.g. qwen3-235b, claude-sonnet-4.5)
+CHAT_MODEL=qwen3-80b-next
 
 # Embedding provider: "local" (free), "openai", or "tokamak"
 EMBEDDING_PROVIDER=local
@@ -98,7 +102,7 @@ POST /api/chat
   "response": "The challenge period is...",
   "conversation_id": "uuid",
   "sources": ["tokamak-docs/deployment.md"],
-  "model": "claude-sonnet-4.5",
+  "model": "qwen3-80b-next",
   "timestamp": "2024-01-15T10:30:00Z"
 }
 ```

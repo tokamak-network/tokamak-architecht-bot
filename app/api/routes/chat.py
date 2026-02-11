@@ -42,7 +42,7 @@ async def chat(request: ChatRequest):
         "response": "The challenge period is...",
         "conversation_id": "uuid",
         "sources": ["tokamak-docs/deployment.md"],
-        "model": "claude-sonnet-4.5",
+        "model": "qwen3-80b-next",
         "timestamp": "2024-01-15T10:30:00Z"
     }
     ```
@@ -123,10 +123,14 @@ async def list_models():
     """List available chat models."""
     return {
         "available_models": [
+            # Qwen3 family (recommended defaults)
+            {"id": "qwen3-80b-next", "name": "Qwen3 80B Next", "tier": "standard"},
+            {"id": "qwen3-235b", "name": "Qwen3 235B", "tier": "premium"},
+            # Claude family (still available via Tokamak Gateway)
             {"id": "claude-opus-4-6", "name": "Claude Opus 4.6", "tier": "premium"},
             {"id": "claude-opus-4.5", "name": "Claude Opus 4.5", "tier": "premium"},
             {"id": "claude-sonnet-4.5", "name": "Claude Sonnet 4.5", "tier": "standard"},
             {"id": "claude-haiku-4.5", "name": "Claude Haiku 4.5", "tier": "fast"},
         ],
-        "note": "Models are accessed via Tokamak AI Gateway",
+        "note": "Models are accessed via Tokamak AI Gateway. Default is qwen3-80b-next (configurable via CHAT_MODEL).",
     }

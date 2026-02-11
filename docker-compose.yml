@@ -20,12 +20,12 @@ services:
     container_name: tokamak-architect-bot
     restart: unless-stopped
     ports:
-      - "8001:8001"
+      - "${CHATBOT_HOST_PORT:-8002}:8001"
     environment:
       # Tokamak AI Gateway
       - TOKAMAK_AI_BASE_URL=${TOKAMAK_AI_BASE_URL:-https://api.ai.tokamak.network}
       - TOKAMAK_AI_API_KEY=${TOKAMAK_AI_API_KEY}
-      - CHAT_MODEL=${CHAT_MODEL:-claude-sonnet-4.5}
+      - CHAT_MODEL=${CHAT_MODEL:-qwen3-80b-next}
 
       # Embedding (local by default - free)
       - EMBEDDING_PROVIDER=${EMBEDDING_PROVIDER:-local}

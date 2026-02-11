@@ -1,8 +1,8 @@
 """
 LLM Service for chat completions via Tokamak AI Gateway.
 
-Uses OpenAI-compatible API to communicate with Claude models
-hosted on Tokamak's infrastructure.
+Uses an OpenAI-compatible API to communicate with LLM models
+hosted on Tokamak's infrastructure (Claude, Qwen3, etc.).
 """
 
 import logging
@@ -21,11 +21,9 @@ class LLMService:
     """
     LLM Service using Tokamak AI Gateway.
 
-    Supports Claude models via OpenAI-compatible API:
-    - claude-opus-4-6
-    - claude-opus-4.5
-    - claude-sonnet-4.5
-    - claude-haiku-4.5
+    Supports multiple model families via an OpenAI-compatible API, e.g.:
+    - Claude: claude-opus-4-6, claude-opus-4.5, claude-sonnet-4.5, claude-haiku-4.5
+    - Qwen3: qwen3-80b-next, qwen3-235b
     """
 
     def __init__(self, settings: Settings):
